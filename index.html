@@ -54,7 +54,7 @@
                 resolve({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
-                    altitude: position.coords.altitude
+                    altitude: 0
                 });  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
                 // resolve(position.coords);
                 document.querySelector("#test_el").innerText = "OriginLat:" + position.coords.latitude + "\nOriginLong:" + position.coords.longitude + "\nOriginAlt:" + position.coords.altitude;
