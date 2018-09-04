@@ -22,6 +22,14 @@
         margin: 0;
     }
 
+    .scene {
+        height: 640px;
+        left: 0px;
+        position: absolute;
+        top: 0px;
+        width: 480px;
+    }
+
     #tracking-panel {
         position: absolute;
         top: 10px;
@@ -48,20 +56,40 @@
                 resolve({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
-                    altitude: 0
+                    altitude: position.coords.altitude
                 });  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
                 // resolve(position.coords);
                 document.querySelector("#test_el").innerText = "OriginLat:" + position.coords.latitude + "; OriginLong:" + position.coords.longitude;
             });
         });
 
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        // camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // renderer = new THREE.WebGLRenderer();
+        // renderer.setSize(window.innerWidth, window.innerHeight);
+        // document.body.appendChild(renderer.domElement);
 
-        scene = new THREE.Scene();
-        camera.position.z = 10;
+        // scene = new THREE.Scene();
+
+        const renderer = (() => {
+            const result = new T.WebGLRenderer({
+                canvas: document.getElementById('canvas'),
+                alpha: true
+            });
+
+            result.setPixelRatio(window.devicePixelRatio);
+            result.setSize(480, 640);
+
+            return result;
+        })();
+
+        const scene = (() => {
+            return new T.Scene();
+        })();
+
+        const camera = (() => {
+            // てきとうに調べたら、iPhone 8の画角は75度と書いてありました。iPhone 8 Plusも同じでいいかなぁと。
+            return new T.PerspectiveCamera(75, 480 / 640, 0.1, 1000);
+        })();
 
         const radiusForLatitude = EARTH_RADIUS;
         const radiusForLongitude = Math.cos(THREE.Math.degToRad(originCoordinate.latitude)) * radiusForLatitude;
@@ -71,27 +99,6 @@
                 coordinate.altitude - originCoordinate.altitude,
                 -THREE.Math.degToRad(coordinate.latitude - originCoordinate.latitude) * EARTH_RADIUS);
         };
-
-        // scene.add((() => {
-        //     // とりあえず、本社の近くの道で。
-
-        //     const vectors = Array.from(map(coordinateToVector, [{ latitude: 21.0464312, longitude: 105.795600, altitude: originCoordinate.altitude - 1.5 },
-        //     { latitude: 21.046138, longitude: 105.795292, altitude: originCoordinate.altitude - 1.5 },
-        //     { latitude: 21.046629, longitude: 105.794876, altitude: originCoordinate.altitude - 1.5 },
-        //     { latitude: 21.0464312, longitude: 105.794695, altitude: originCoordinate.altitude - 1.5 }]));
-
-        //     const curve = (() => {
-        //         const result = new THREE.CurvePath();
-
-        //         for (const curve of map((vector1, vector2) => new THREE.LineCurve3(vector1, vector2), vectors, next(vectors))) {
-        //             result.add(curve);
-        //         }
-
-        //         return result;
-        //     })();
-
-        //     return new THREE.Mesh(new THREE.TubeGeometry(curve, 100, 0.5, 8), new THREE.MeshNormalMaterial());
-        // })());
 
         scene.add((() => {
             const curve = (() => {
