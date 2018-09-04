@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="three.min.js"></script>
+</head>
+
+<body>
+    <div id="tracking-panel">
+        <div>
+            <span id="test_el"></span><br>
+            <span id="test_el2"></span>
+        </div>
+    </div>
+
+    <video id="video" class="scene" autoplay playsinline="true"></video>
+</body>
+
+</html>
+<style>
+    * {
+        margin: 0;
+    }
+
+    #tracking-panel {
+        position: absolute;
+        top: 10px;
+        right: 2px;
+        color: red;
+        text-align: right;
+        text-shadow: 0px 0px 4px white;
+        z-index: 1;
+    }
+</style>
+<script>
+    (async () => {
+        var camera, renderer, scene;
+
+        const EARTH_RADIUS = 6378136;
+
+        document.getElementById('video').srcObject = navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: { facingMode: { exact: 'environment' } }
+        });
+
+        const originCoordinate = await new Promise((resolve) => {
+            navigator.geolocation.getCurrentPosition((position) => {
+                resolve({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    altitude: 0
+                });  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
+                // resolve(position.coords);
+                document.querySelector("#test_el").innerText = "OriginLat:" + position.coords.latitude + "; OriginLong:" + position.coords.longitude;
+            });
+        });
+
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+        camera.position.z = 10;
+
+        const radiusForLatitude = EARTH_RADIUS;
+        const radiusForLongitude = Math.cos(THREE.Math.degToRad(originCoordinate.latitude)) * radiusForLatitude;
+
+        const coordinateToVector = (coordinate) => {
+            return new THREE.Vector3(THREE.Math.degToRad(coordinate.longitude - originCoordinate.longitude) * radiusForLongitude,
+                coordinate.altitude - originCoordinate.altitude,
+                -THREE.Math.degToRad(coordinate.latitude - originCoordinate.latitude) * EARTH_RADIUS);
+        };
+
+        // scene.add((() => {
+        //     // とりあえず、本社の近くの道で。
+
+        //     const vectors = Array.from(map(coordinateToVector, [{ latitude: 21.0464312, longitude: 105.795600, altitude: originCoordinate.altitude - 1.5 },
+        //     { latitude: 21.046138, longitude: 105.795292, altitude: originCoordinate.altitude - 1.5 },
+        //     { latitude: 21.046629, longitude: 105.794876, altitude: originCoordinate.altitude - 1.5 },
+        //     { latitude: 21.0464312, longitude: 105.794695, altitude: originCoordinate.altitude - 1.5 }]));
+
+        //     const curve = (() => {
+        //         const result = new THREE.CurvePath();
+
+        //         for (const curve of map((vector1, vector2) => new THREE.LineCurve3(vector1, vector2), vectors, next(vectors))) {
+        //             result.add(curve);
+        //         }
+
+        //         return result;
+        //     })();
+
+        //     return new THREE.Mesh(new THREE.TubeGeometry(curve, 100, 0.5, 8), new THREE.MeshNormalMaterial());
+        // })());
+
+        scene.add((() => {
+            const curve = (() => {
+                const result = new THREE.CurvePath();
+
+                var position1 = {
+                    latitude: 21.0464312,
+                    longitude: 105.795600,
+                    altitude: 0
+                };
+
+                var position2 = {
+                    latitude: 21.046138,
+                    longitude: 105.795292,
+                    altitude: 20
+                };
+
+                var position3 = {
+                    latitude: 21.046629,
+                    longitude: 105.794876,
+                    altitude: 30
+                };
+
+                var position4 = {
+                    latitude: 21.0464312,
+                    longitude: 105.794695,
+                    altitude: 10
+                };
+
+                result.add(new THREE.LineCurve3(coordinateToVector(position1), coordinateToVector(position2)));
+                result.add(new THREE.LineCurve3(coordinateToVector(position2), coordinateToVector(position3)));
+                result.add(new THREE.LineCurve3(coordinateToVector(position3), coordinateToVector(position4)));
+
+                return result;
+            })();
+
+            return new THREE.Mesh(new THREE.TubeGeometry(curve, 100, 0.5, 8), new THREE.MeshNormalMaterial());
+        })());
+
+        navigator.geolocation.watchPosition((position) => {
+            // console.log(position.coords);
+
+            camera.position.copy(coordinateToVector({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                altitude: 0
+            }));  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
+
+            // camera.position.copy(coordinateToVector(position.coords));
+            document.querySelector("#test_el2").innerText = "lat:" + position.coords.latitude + "; long:" + position.coords.longitude;
+        }, null, { enableHighAccuracy: true });
+
+        window.addEventListener('deviceorientation', (orientation) => {
+            // TODO: 磁石の北と真北のズレを修正しなくていいのか確認する。
+
+            camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
+            camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
+        });
+
+        const render = () => {
+            requestAnimationFrame(render);
+            renderer.render(scene, camera);
+        };
+
+        render();
+    })();
+</script>
