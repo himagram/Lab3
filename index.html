@@ -132,7 +132,7 @@
             }));  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
 
             // camera.position.copy(coordinateToVector(position.coords));
-            document.querySelector("#test_el2").innerText = "newlat:" + position.coords.latitude + ";\nlong:" + position.coords.longitude + "\nAlt:" + position.coords.altitude;;
+            
         }, null, { enableHighAccuracy: true });
 
         window.addEventListener('deviceorientation', (orientation) => {
@@ -143,6 +143,7 @@
             // var axis = new THREE.Vector3(0, 1, 0).normalize();
             // var target = new THREE.Quaternion();
             // target.setFromAxisAngle(axis, Math.PI / 2);
+            document.querySelector("#test_el2").innerText = "camX:" + camera.rotation.x + ";\ncamY:" + camera.rotation.y + "\ncamZ:" + camera.rotation.z;
         });
 
         const render = () => {
