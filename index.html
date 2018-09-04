@@ -103,34 +103,17 @@
             const curve = (() => {
                 const result = new THREE.CurvePath();
 
-                var position1 = {
-                    latitude: 21.0464312,
-                    longitude: 105.795600,
-                    altitude: 0
-                };
+                var points = [
+                    { latitude: 21.0464312, longitude: 105.795600, altitude: 0 },
+                    { latitude: 21.046138, longitude: 105.795292, altitude: 20 },
+                    { latitude: 21.046629, longitude: 105.794876, altitude: 30 },
+                    { latitude: 21.0464312, longitude: 105.794695, altitude: 10 }];
 
-                var position2 = {
-                    latitude: 21.046138,
-                    longitude: 105.795292,
-                    altitude: 20
-                };
+                for (var i = 0; i < points.length - 1; i++) {
+                    result.add(new THREE.LineCurve3(coordinateToVector(points[i]), coordinateToVector(points[i+1])));
+                }
 
-                var position3 = {
-                    latitude: 21.046629,
-                    longitude: 105.794876,
-                    altitude: 30
-                };
-
-                var position4 = {
-                    latitude: 21.0464312,
-                    longitude: 105.794695,
-                    altitude: 10
-                };
-
-                result.add(new THREE.LineCurve3(coordinateToVector(position1), coordinateToVector(position2)));
-                result.add(new THREE.LineCurve3(coordinateToVector(position2), coordinateToVector(position3)));
-                result.add(new THREE.LineCurve3(coordinateToVector(position3), coordinateToVector(position4)));
-
+                //result.add(new THREE.LineCurve3(coordinateToVector(points[i]), coordinateToVector(points[i+1])));
                 return result;
             })();
 
@@ -143,11 +126,11 @@
             camera.position.copy(coordinateToVector({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
-                altitude: 0
+                altitude: position.coords.altitude
             }));  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
 
             // camera.position.copy(coordinateToVector(position.coords));
-            document.querySelector("#test_el2").innerText = "lat:" + position.coords.latitude + "; long:" + position.coords.longitude;
+            document.querySelector("#test_el2").innerText = "lat:" + position.coords.latitude + ";\nlong:" + position.coords.longitude + "\nAlt:" + position.coords.altitude;;
         }, null, { enableHighAccuracy: true });
 
         window.addEventListener('deviceorientation', (orientation) => {
