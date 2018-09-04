@@ -90,6 +90,10 @@
             return new THREE.PerspectiveCamera(75, 480 / 640, 0.1, 1000);
         })();
 
+        var vector = new THREE.Vector3(); 
+        camera.getWorldDirection( vector );
+        document.querySelector("#test_el").innerText = "camX:" + vector.x + ";\ncamY:" + vector.y + "\ncamZ:" + vector.z;
+
         const radiusForLatitude = EARTH_RADIUS;
         const radiusForLongitude = Math.cos(THREE.Math.degToRad(originCoordinate.latitude)) * radiusForLatitude;
 
@@ -132,7 +136,7 @@
             }));  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
 
             // camera.position.copy(coordinateToVector(position.coords));
-            
+
         }, null, { enableHighAccuracy: true });
 
         window.addEventListener('deviceorientation', (orientation) => {
