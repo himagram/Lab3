@@ -130,7 +130,7 @@
             }));  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
 
             // camera.position.copy(coordinateToVector(position.coords));
-            document.querySelector("#test_el2").innerText = "oldlat:" + position.coords.latitude + ";\nlong:" + position.coords.longitude + "\nAlt:" + position.coords.altitude;;
+            document.querySelector("#test_el2").innerText = "setlat:" + position.coords.latitude + ";\nlong:" + position.coords.longitude + "\nAlt:" + position.coords.altitude;;
         }, null, { enableHighAccuracy: true });
 
         window.addEventListener('deviceorientation', (orientation) => {
@@ -139,7 +139,7 @@
             var target = new THREE.Quaternion();
             target.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
             //camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
-            camera.quaternion.multiply(target);  // X軸を中心に90度回転します。
+            camera.quaternion.set(target);  // X軸を中心に90度回転します。
             // var axis = new THREE.Vector3(0, 1, 0).normalize();
             // var target = new THREE.Quaternion();
             // target.setFromAxisAngle(axis, Math.PI / 2);
