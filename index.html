@@ -59,7 +59,7 @@
                     altitude: position.coords.altitude
                 });  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
                 // resolve(position.coords);
-                document.querySelector("#test_el").innerText = "OriginLat:" + position.coords.latitude + "; OriginLong:" + position.coords.longitude;
+                document.querySelector("#test_el").innerText = "OriginLat:" + position.coords.latitude + "\nOriginLong:" + position.coords.longitude + "\nOriginAlt:" + position.coords.altitude;
             });
         });
 
@@ -71,7 +71,7 @@
         // scene = new THREE.Scene();
 
         const renderer = (() => {
-            const result = new T.WebGLRenderer({
+            const result = new THREE.WebGLRenderer({
                 canvas: document.getElementById('canvas'),
                 alpha: true
             });
@@ -83,12 +83,12 @@
         })();
 
         const scene = (() => {
-            return new T.Scene();
+            return new THREE.Scene();
         })();
 
         const camera = (() => {
             // てきとうに調べたら、iPhone 8の画角は75度と書いてありました。iPhone 8 Plusも同じでいいかなぁと。
-            return new T.PerspectiveCamera(75, 480 / 640, 0.1, 1000);
+            return new THREE.PerspectiveCamera(75, 480 / 640, 0.1, 1000);
         })();
 
         const radiusForLatitude = EARTH_RADIUS;
