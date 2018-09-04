@@ -92,7 +92,7 @@
 
         var vector = new THREE.Vector3(); 
         camera.getWorldDirection( vector );
-        document.querySelector("#test_el").innerText = "camX:" + vector.x + ";\ncamY:" + vector.y + "\ncamZ:" + vector.z;
+        document.querySelector("#test_el").innerText = "originX:" + vector.x + ";\ncamY:" + vector.y + "\ncamZ:" + vector.z;
 
         const radiusForLatitude = EARTH_RADIUS;
         const radiusForLongitude = Math.cos(THREE.Math.degToRad(originCoordinate.latitude)) * radiusForLatitude;
@@ -119,7 +119,8 @@
                     result.add(new THREE.LineCurve3(coordinateToVector(points[i]), coordinateToVector(points[i + 1])));
                 }
 
-                //result.add(new THREE.LineCurve3(coordinateToVector(points[i]), coordinateToVector(points[i+1])));
+                var vector3 = coordinateToVector(points[0]);
+                document.querySelector("#test_el2").innerText = "camX:" + vector3.x + ";\ncamY:" + vector3.y + "\ncamZ:" + vector3.z;
                 return result;
             })();
 
@@ -147,7 +148,7 @@
             // var axis = new THREE.Vector3(0, 1, 0).normalize();
             // var target = new THREE.Quaternion();
             // target.setFromAxisAngle(axis, Math.PI / 2);
-            document.querySelector("#test_el2").innerText = "camX:" + camera.rotation.x + ";\ncamY:" + camera.rotation.y + "\ncamZ:" + camera.rotation.z;
+            
         });
 
         const render = () => {
