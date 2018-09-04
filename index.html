@@ -76,7 +76,7 @@
             });
 
             result.setPixelRatio(window.devicePixelRatio);
-            result.setSize(window.innerWidth, window.innerHeight);
+            result.setSize(480, 640);
 
             return result;
         })();
@@ -87,7 +87,7 @@
 
         const camera = (() => {
             // てきとうに調べたら、iPhone 8の画角は75度と書いてありました。iPhone 8 Plusも同じでいいかなぁと。
-            return new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            return new THREE.PerspectiveCamera(75, 480 / 640, 0.1, 1000);
         })();
 
         const radiusForLatitude = EARTH_RADIUS;
