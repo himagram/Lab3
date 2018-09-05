@@ -161,9 +161,9 @@
                 //var rotationY = THREE.Math.degToRad((heading - (cameraRotation - yawObject.rotation.y)) % 360);
                 let rotationY = THREE.Math.degToRad((heading - 270) % 360);
 
-                originDirVector = new THREE.Vector3(0, rotationY, 0).normalize();
+                originDirVector = new THREE.Vector3(0, 1, 0).normalize();
                 camera.lookAt(originDirVector);
-                document.querySelector("#test_el").innerText = "rotationY:" + rotationY;
+                document.querySelector("#test_el").innerText = "1rotationY:" + rotationY;
             }
             
             // var vector = new THREE.Vector3();
