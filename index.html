@@ -162,13 +162,13 @@
                 let rotationY = THREE.Math.degToRad((heading - 270) % 360);
 
                 originDirVector = new THREE.Vector3(0, rotationY, 0).normalize();
-                camera.lookAt(new THREE.Vector3(0, 1, -1));
+                camera.lookAt(new THREE.Vector3(0, 2, -1));
             }
             
             // var vector = new THREE.Vector3();
             // camera.getWorldDirection(vector);
             // vector = vector.normalize();
-            document.querySelector("#test_el").innerText = "213rotationY:";
+            document.querySelector("#test_el").innerText = "23rotationY:";
             //yawObject.rotation.y = THREE.Math.degToRad((heading - 270) % 360);
         });
 
