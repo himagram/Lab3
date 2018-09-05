@@ -158,13 +158,13 @@
             //var rotationY = THREE.Math.degToRad((heading - (cameraRotation - yawObject.rotation.y)) % 360);
             let rotationY = THREE.Math.degToRad((heading - 270) % 360);
             if (originDirVector == null) {
-                // originDirVector = new THREE.Vector3(0, 90, 0).normalize();
+                originDirVector = new THREE.Vector3(0, 90, 0).normalize();
                 // camera.lookAt(originDirVector);
                 // document.querySelector("#test_el").innerText = "origin_heading:" + heading;
                 camera.rotation.y = rotationY;
             }
 
-            document.querySelector("#test_el2").innerText = "1heading:" + heading;
+            document.querySelector("#test_el2").innerText = "2heading:" + heading;
             // var vector = new THREE.Vector3();
             // camera.getWorldDirection(vector);
             // vector = vector.normalize();
