@@ -58,7 +58,6 @@
                     altitude: position.coords.altitude
                 });  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
                 // resolve(position.coords);
-                document.querySelector("#test_el").innerText = "OriginLat:" + position.coords.latitude + "\nOriginLong:" + position.coords.longitude + "\nOriginAlt:" + position.coords.altitude;
             });
         });
 
@@ -90,8 +89,8 @@
             return new THREE.PerspectiveCamera(75, 480 / 640, 0.1, 1000);
         })();
 
-        var vector = new THREE.Vector3(); 
-        camera.getWorldDirection( vector );
+        var vector = new THREE.Vector3();
+        camera.getWorldDirection(vector);
         document.querySelector("#test_el").innerText = "originX:" + vector.x + ";\ncamY:" + vector.y + "\ncamZ:" + vector.z;
 
         const radiusForLatitude = EARTH_RADIUS;
@@ -148,7 +147,28 @@
             // var axis = new THREE.Vector3(0, 1, 0).normalize();
             // var target = new THREE.Quaternion();
             // target.setFromAxisAngle(axis, Math.PI / 2);
-            
+            let heading = null;
+
+            if (typeof (orientation.webkitCompassHeading) != 'undefined') {
+
+                if (evt.webkitCompassAccuracy < 50) {
+                    heading = evt.webkitCompassHeading;
+                } else {
+                    console.warn('webkitCompassAccuracy is evt.webkitCompassAccuracy');
+                }
+
+            } 
+            // else if (orientation.alpha !== null) {
+            //     if (orientation.absolute === true || typeof (orientation.absolute) == 'undefined') {
+            //         heading = CompassUtils.getCompassHeading(orientation.alpha, orientation.beta, orientation.gamma);
+            //     } else {
+            //         console.warn('evt.absolute === false');
+            //     }
+            // } else {
+            //     console.warn('evt.alpha === null');
+            // }
+
+            document.querySelector("#test_el").innerText = "heading: " + heading;
         });
 
         const render = () => {
