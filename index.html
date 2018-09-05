@@ -147,6 +147,7 @@
             // var axis = new THREE.Vector3(0, 1, 0).normalize();
             // var target = new THREE.Quaternion();
             // target.setFromAxisAngle(axis, Math.PI / 2);
+
             let heading = null;
 
             if (typeof (orientation.webkitCompassHeading) != 'undefined') {
@@ -155,10 +156,10 @@
             }
             else if (orientation.alpha !== null) {
                     heading = getCompassHeading(orientation.alpha, orientation.beta, orientation.gamma);
-                    document.querySelector("#test_el").innerText = "2heading: " + heading;
+                    document.querySelector("#test_el").innerText = "22heading: " + heading;
             }
 
-            camera.rotation.x = THREE.Math.degToRad(heading - 270);
+            camera.rotation.y = THREE.Math.degToRad((heading - 270) % 360);
         });
 
         const render = () => {
