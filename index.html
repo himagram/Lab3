@@ -150,27 +150,15 @@
             let heading = null;
 
             if (typeof (orientation.webkitCompassHeading) != 'undefined') {
-
-                //if (event.webkitCompassAccuracy < 50) {
                     heading = orientation.webkitCompassHeading;
-                    document.querySelector("#test_el").innerText = "4heading: " + heading;
-                // } else {
-                //     console.warn('webkitCompassAccuracy is evt.webkitCompassAccuracy');
-                // }
-
+                    document.querySelector("#test_el").innerText = "1heading: " + heading;
             }
             else if (orientation.alpha !== null) {
-                //if (orientation.absolute === true || typeof (orientation.absolute) == 'undefined') {
                     heading = getCompassHeading(orientation.alpha, orientation.beta, orientation.gamma);
-                    document.querySelector("#test_el").innerText = "3heading: " + heading;
-                // } else {
-                //     console.warn('evt.absolute === false');
-                // }
-            } else {
-                console.warn('evt.alpha === null');
+                    document.querySelector("#test_el").innerText = "2heading: " + heading;
             }
 
-            camera.rotation.y = heading - 270;
+            camera.rotation.x = THREE.Math.degToRad(heading - 270);
         });
 
         const render = () => {
