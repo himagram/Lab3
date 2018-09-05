@@ -115,6 +115,7 @@
                 }
 
                 var vector3 = coordinateToVector(points[0]);
+                vector3 = vector3.normalize();
                 document.querySelector("#test_el2").innerText = "camX:" + vector3.x + ";\ncamY:" + vector3.y + "\ncamZ:" + vector3.z;
                 return result;
             })();
@@ -168,7 +169,8 @@
             //camera.lookAt(vector);
             var vector = new THREE.Vector3();
             camera.getWorldDirection(vector);
-            document.querySelector("#test_el").innerText = "originX:" + vector.x + ";\noriginY:" + vector.y + "\noriginZ:" + vector.z;
+            vector = vector.normalize();
+            document.querySelector("#test_el").innerText = "OriginX:" + vector.x + ";\noriginY:" + vector.y + "\noriginZ:" + vector.z;
             //yawObject.rotation.y = THREE.Math.degToRad((heading - 270) % 360);
         });
 
