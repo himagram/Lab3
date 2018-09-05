@@ -159,7 +159,7 @@
 
                 //var cameraRotation = camera.rotation.y;
                 //var rotationY = THREE.Math.degToRad((heading - (cameraRotation - yawObject.rotation.y)) % 360);
-                let rotationY = THREE.Math.degToRad(heading % 360);
+                let rotationY = THREE.Math.degToRad((heading - 270) % 360);
 
                 originDirVector = new THREE.Vector3(0, rotationY, 0).normalize();
                 camera.lookAt(originDirVector);
