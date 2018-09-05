@@ -138,7 +138,7 @@
         window.addEventListener('deviceorientation', (orientation) => {
             // TODO: 磁石の北と真北のズレを修正しなくていいのか確認する。
 
-            camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
+            camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha - 270), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
             camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
             // var axis = new THREE.Vector3(0, 1, 0).normalize();
             // var target = new THREE.Quaternion();
