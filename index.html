@@ -137,7 +137,7 @@
         }, null, { enableHighAccuracy: true });
 
 
-        var originDirVector;
+        var originDirVector = null;
         window.addEventListener('deviceorientation', (orientation) => {
             // TODO: 磁石の北と真北のズレを修正しなくていいのか確認する。
 
@@ -147,7 +147,7 @@
             // var target = new THREE.Quaternion();
             // target.setFromAxisAngle(axis, Math.PI / 2);
 
-            if (originDirVector) {
+            if (originDirVector == null) {
                 let heading = null;
                 if (typeof (orientation.webkitCompassHeading) != 'undefined') {
                     // Can't run through here
