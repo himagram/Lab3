@@ -151,8 +151,8 @@
 
             if (typeof (orientation.webkitCompassHeading) != 'undefined') {
 
-                if (evt.webkitCompassAccuracy < 50) {
-                    heading = evt.webkitCompassHeading;
+                if (orientation.webkitCompassAccuracy < 50) {
+                    heading = orientation.webkitCompassHeading;
                 } else {
                     console.warn('webkitCompassAccuracy is evt.webkitCompassAccuracy');
                 }
@@ -168,7 +168,7 @@
                 console.warn('evt.alpha === null');
             }
 
-            document.querySelector("#test_el").innerText = "1heading: " + heading;
+            document.querySelector("#test_el").innerText = "heading: " + heading;
         });
 
         const render = () => {
