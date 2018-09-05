@@ -147,7 +147,7 @@
             // var target = new THREE.Quaternion();
             // target.setFromAxisAngle(axis, Math.PI / 2);
 
-            if (!originDirVector) {
+            if (originDirVector) {
                 let heading = null;
                 if (typeof (orientation.webkitCompassHeading) != 'undefined') {
                     // Can't run through here
@@ -168,7 +168,7 @@
             // var vector = new THREE.Vector3();
             // camera.getWorldDirection(vector);
             // vector = vector.normalize();
-            document.querySelector("#test_el").innerText = "12rotationY:";
+            document.querySelector("#test_el").innerText = "rotationY:";
             //yawObject.rotation.y = THREE.Math.degToRad((heading - 270) % 360);
         });
 
