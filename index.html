@@ -149,10 +149,10 @@
             // target.setFromAxisAngle(axis, Math.PI / 2);
             let heading = null;
 
-            if (typeof (orientation.webkitCompassHeading) != 'undefined') {
+            if (typeof (event.webkitCompassHeading) != 'undefined') {
 
-                if (orientation.webkitCompassAccuracy < 50) {
-                    heading = orientation.webkitCompassHeading;
+                if (event.webkitCompassAccuracy < 50) {
+                    heading = event.webkitCompassHeading;
                 } else {
                     console.warn('webkitCompassAccuracy is evt.webkitCompassAccuracy');
                 }
@@ -168,7 +168,7 @@
                 console.warn('evt.alpha === null');
             }
 
-            document.querySelector("#test_el").innerText = "heading: " + heading;
+            document.querySelector("#test_el").innerText = "2heading: " + heading;
         });
 
         const render = () => {
