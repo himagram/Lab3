@@ -164,7 +164,7 @@
                 camera.rotation.y = rotationY;
             }
 
-            document.querySelector("#test_el2").innerText = "2heading:" + heading;
+            document.querySelector("#test_el2").innerText = "42heading:" + heading;
             // var vector = new THREE.Vector3();
             // camera.getWorldDirection(vector);
             // vector = vector.normalize();
@@ -173,6 +173,8 @@
 
         const render = () => {
             requestAnimationFrame(render);
+
+            camera.rotation.y = camera.rotation.y + 1;
             renderer.render(scene, camera);
         };
 
