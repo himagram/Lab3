@@ -142,8 +142,8 @@
         window.addEventListener('deviceorientation', (orientation) => {
             // TODO: 磁石の北と真北のズレを修正しなくていいのか確認する。
 
-            camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
-            camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
+            // camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
+            // camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
             // var axis = new THREE.Vector3(0, 1, 0).normalize();
             // var target = new THREE.Quaternion();
             // target.setFromAxisAngle(axis, Math.PI / 2);
@@ -156,7 +156,7 @@
             }
             else if (orientation.alpha !== null) {
                     heading = getCompassHeading(orientation.alpha, orientation.beta, orientation.gamma);
-                    document.querySelector("#test_el").innerText = "22heading: " + heading;
+                    document.querySelector("#test_el").innerText = "21heading: " + heading;
             }
 
             camera.rotation.y = THREE.Math.degToRad((heading - 270) % 360);
