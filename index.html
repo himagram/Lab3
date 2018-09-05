@@ -157,10 +157,10 @@
             //var rotationY = THREE.Math.degToRad((heading - (cameraRotation - yawObject.rotation.y)) % 360);
             let rotationY = heading - 270;
 
-            camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(heading), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
+            camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
             camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
 
-            document.querySelector("#test_el2").innerText = "aheading:" + rotationY;
+            document.querySelector("#test_el2").innerText = "alpha:" + orientation.alpha + "\nheading:" + heading;
             // var vector = new THREE.Vector3();
             // camera.getWorldDirection(vector);
             // vector = vector.normalize();
