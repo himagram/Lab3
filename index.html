@@ -162,9 +162,12 @@
                 // camera.lookAt(originDirVector);
                 // document.querySelector("#test_el").innerText = "origin_heading:" + heading;
                 camera.rotation.y += rotationY;
+
+                camera.rotation.y += Math.PI/2;
+                alert();
             }
 
-            document.querySelector("#test_el2").innerText = "5heading:" + rotationY;
+            document.querySelector("#test_el2").innerText = "heading:" + rotationY;
             // var vector = new THREE.Vector3();
             // camera.getWorldDirection(vector);
             // vector = vector.normalize();
