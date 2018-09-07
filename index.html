@@ -158,7 +158,8 @@
             // let rotationY = heading - 270;
             
             var log = "heading:" + heading + "\nalpha:" + orientation.alpha + "\nbeta:" + orientation.beta + "\ngamma:" + orientation.gamma +"\n";
-            log += "x:" + camera.quaternion.x + "\ny:" + camera.quaternion.y + "\nz:" + camera.quaternion.z + "\nw:" + camera.quaternion.w;
+            log += "x:" + camera.quaternion.x + "\ny:" + camera.quaternion.y + "\nz:" + camera.quaternion.z + "\nw:" + camera.quaternion.w +"\n";
+            log += "camx:" + camera.x + "\ncamy:" + camera.y + "\ncamz:" + camera.z +"\n";
             document.querySelector("#test_el").innerText = log;
             // var vector = new THREE.Vector3();
             // camera.getWorldDirection(vector);
