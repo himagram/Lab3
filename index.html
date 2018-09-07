@@ -138,29 +138,26 @@
         window.addEventListener('deviceorientation', (orientation) => {
             // TODO: 磁石の北と真北のズレを修正しなくていいのか確認する。
             camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
-            camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
+            camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0)));  // X軸を中心に90度回転します。
             
             // var axis = new THREE.Vector3(0, 1, 0).normalize();
             // var target = new THREE.Quaternion();
             // target.setFromAxisAngle(axis, Math.PI / 2);
 
+            // let heading = null;
+            // if (typeof (orientation.webkitCompassHeading) != 'undefined') {
+            //     // Can't run through here
+            //     heading = orientation.webkitCompassHeading;
+            // }
+            // else if (orientation.alpha !== null) {
+            //     heading = getCompassHeading(orientation.alpha, orientation.beta, orientation.gamma);
+            // }
 
-            let heading = null;
-            if (typeof (orientation.webkitCompassHeading) != 'undefined') {
-                // Can't run through here
-                heading = orientation.webkitCompassHeading;
-            }
-            else if (orientation.alpha !== null) {
-                heading = getCompassHeading(orientation.alpha, orientation.beta, orientation.gamma);
-            }
-
-            //var cameraRotation = camera.rotation.y;
-            //var rotationY = THREE.Math.degToRad((heading - (cameraRotation - yawObject.rotation.y)) % 360);
-            let rotationY = heading - 270;
+            // //var cameraRotation = camera.rotation.y;
+            // //var rotationY = THREE.Math.degToRad((heading - (cameraRotation - yawObject.rotation.y)) % 360);
+            // let rotationY = heading - 270;
             
-
-
-            document.querySelector("#test_el2").innerText = "2heading:" + rotationY;
+            document.querySelector("#test_el").innerText = "alpha:" + orientation.alpha + "\nbeta:" + orientation.beta + "\ngamma:" + orientation.gamma;
             // var vector = new THREE.Vector3();
             // camera.getWorldDirection(vector);
             // vector = vector.normalize();
