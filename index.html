@@ -138,11 +138,7 @@
         window.addEventListener('deviceorientation', (orientation) => {
             // TODO: 磁石の北と真北のズレを修正しなくていいのか確認する。
             camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
-            camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
-
-            //let q = new THREE.Quaternion();
-
-            camera.quaternion.multiply(new THREE.Quaternion(0, Math.sqrt(0.5), 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
+            camera.quaternion.multiply(new THREE.Quaternion(0, 0, 0, 0));  // X軸を中心に90度回転します。
             
             // var axis = new THREE.Vector3(0, 1, 0).normalize();
             // var target = new THREE.Quaternion();
@@ -161,7 +157,7 @@
             // //var rotationY = THREE.Math.degToRad((heading - (cameraRotation - yawObject.rotation.y)) % 360);
             // let rotationY = heading - 270;
             
-            document.querySelector("#test_el").innerText = "132alpha:" + orientation.alpha + "\nbeta:" + orientation.beta + "\ngamma:" + orientation.gamma;
+            document.querySelector("#test_el").innerText = "alpha:" + orientation.alpha + "\nbeta:" + orientation.beta + "\ngamma:" + orientation.gamma;
             // var vector = new THREE.Vector3();
             // camera.getWorldDirection(vector);
             // vector = vector.normalize();
