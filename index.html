@@ -102,9 +102,9 @@
                     // { latitude: 21.046138, longitude: 105.795292, altitude: 20 },
                     // { latitude: 21.046629, longitude: 105.794876, altitude: 30 },
                     // { latitude: 21.0464312, longitude: 105.794695, altitude: 10 }
-                    { latitude: 21.046368, longitude: 105.794631, altitude: 10 },
-                    { latitude: 21.046368, longitude: 105.795178, altitude: 20 },
-                    { latitude: 21.046368, longitude: 105.795704, altitude: 0 }
+                    { latitude: 21.046368, longitude: 105.794631, altitude: 0 },
+                    { latitude: 21.046283, longitude: 105.795146, altitude: 10 },
+                    { latitude: 21.046399, longitude: 105.795743, altitude: 0 }
                     //{ latitude: 21.0464312, longitude: 105.794695, altitude: 0 }
                 ];
 
@@ -139,7 +139,7 @@
             return;
         }
 
-        window.addEventListener(orientationEv, (orientation) => {
+        window.addEventListener("deviceorientation", (orientation) => {
             // TODO: 磁石の北と真北のズレを修正しなくていいのか確認する。
             camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
             camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
