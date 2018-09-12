@@ -57,16 +57,9 @@
                     longitude: position.coords.longitude,
                     altitude: position.coords.altitude
                 });  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
-                // resolve(position.coords);
+
             });
         });
-
-        // camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        // renderer = new THREE.WebGLRenderer();
-        // renderer.setSize(window.innerWidth, window.innerHeight);
-        // document.body.appendChild(renderer.domElement);
-
-        // scene = new THREE.Scene();
 
         const renderer = (() => {
             const result = new THREE.WebGLRenderer({
@@ -103,12 +96,16 @@
                 const result = new THREE.CurvePath();
 
                 var points = [
-                    { latitude: 21.046264, longitude: 105.795553, altitude: 30 },
-                    { latitude: 21.046279, longitude: 105.794673, altitude: 10 }];
-                // { latitude: 21.0464312, longitude: 105.795600, altitude: 0 },
-                // { latitude: 21.046138, longitude: 105.795292, altitude: 20 },
-                // { latitude: 21.046629, longitude: 105.794876, altitude: 30 },
-                // { latitude: 21.0464312, longitude: 105.794695, altitude: 10 }];
+                    // { latitude: 21.046264, longitude: 105.795553, altitude: 30 },
+                    // { latitude: 21.046279, longitude: 105.794673, altitude: 10 }
+                    // { latitude: 21.0464312, longitude: 105.795600, altitude: 0 },
+                    // { latitude: 21.046138, longitude: 105.795292, altitude: 20 },
+                    // { latitude: 21.046629, longitude: 105.794876, altitude: 30 },
+                    // { latitude: 21.0464312, longitude: 105.794695, altitude: 10 }];
+                    { latitude: 21.0464312, longitude: 105.795600, altitude: 0 },
+                    { latitude: 21.046138, longitude: 105.795292, altitude: 20 },
+                    { latitude: 21.046629, longitude: 105.794876, altitude: 10 },
+                    { latitude: 21.0464312, longitude: 105.794695, altitude: 0 }];
 
                 for (var i = 0; i < points.length - 1; i++) {
                     result.add(new THREE.LineCurve3(coordinateToVector(points[i]), coordinateToVector(points[i + 1])));
@@ -121,7 +118,6 @@
         })());
 
         navigator.geolocation.watchPosition((position) => {
-            // console.log(position.coords);
 
             camera.position.copy(coordinateToVector({
                 latitude: position.coords.latitude,
@@ -129,42 +125,23 @@
                 altitude: position.coords.altitude
             }));  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
 
-            // camera.position.copy(coordinateToVector(position.coords));
-
         }, null, { enableHighAccuracy: true });
 
+        var orientationEv = "";
+        if ('ondeviceorientationabsolute' in window) {
+            orientationEv = 'deviceorientationabsolute';
+        } else if ('ondeviceorientation' in window) {
+            orientationEv = 'deviceorientation';
+        } else {
+            orientationEv = '';
+            console.error('Compass not supported');
+            return;
+        }
 
-        var originDirVector = null;
-        window.addEventListener('deviceorientationabsolute', (orientation) => {
+        window.addEventListener(orientationEv, (orientation) => {
             // TODO: 磁石の北と真北のズレを修正しなくていいのか確認する。
             camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
             camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
-
-            // var axis = new THREE.Vector3(0, 1, 0).normalize();
-            // var target = new THREE.Quaternion();
-            // target.setFromAxisAngle(axis, Math.PI / 2);
-
-            // let heading = null;
-            // if (typeof (orientation.webkitCompassHeading) != 'undefined') {
-            //     // Can't run through here
-            //     heading = orientation.webkitCompassHeading;
-            // }
-            // else if (orientation.alpha !== null) {
-            //     heading = getCompassHeading(orientation.alpha, orientation.beta, orientation.gamma);
-            // }
-
-            // // //var cameraRotation = camera.rotation.y;
-            // // //var rotationY = THREE.Math.degToRad((heading - (cameraRotation - yawObject.rotation.y)) % 360);
-            // // let rotationY = heading - 270;
-            
-            // var log = "heading:" + heading + "\nalpha:" + orientation.alpha + "\nbeta:" + orientation.beta + "\ngamma:" + orientation.gamma +"\n";
-            // log += "x:" + camera.quaternion.x + "\ny:" + camera.quaternion.y + "\nz:" + camera.quaternion.z + "\nw:" + camera.quaternion.w +"\n";
-            // log += "camx:" + camera.rotation.x + "\ncamy:" + camera.rotation.y + "\ncamz:" + camera.rotation.z +"\n";
-            // document.querySelector("#test_el").innerText = log;
-            // var vector = new THREE.Vector3();
-            // camera.getWorldDirection(vector);
-            // vector = vector.normalize();
-            //yawObject.rotation.y = THREE.Math.degToRad((heading - 270) % 360);
         });
 
         const render = () => {
@@ -172,52 +149,6 @@
 
             renderer.render(scene, camera);
         };
-
-        const getCompassHeading = (alpha, beta, gamma) => {
-
-            // Convert degrees to radians
-            var alphaRad = alpha * (Math.PI / 180);
-            var betaRad = beta * (Math.PI / 180);
-            var gammaRad = gamma * (Math.PI / 180);
-
-            // Calculate equation components
-            var cA = Math.cos(alphaRad);
-            var sA = Math.sin(alphaRad);
-            var cB = Math.cos(betaRad);
-            var sB = Math.sin(betaRad);
-            var cG = Math.cos(gammaRad);
-            var sG = Math.sin(gammaRad);
-
-            // Calculate A, B, C rotation components
-            var rA = - cA * sG - sA * sB * cG;
-            var rB = - sA * sG + cA * sB * cG;
-            var rC = - cB * cG;
-
-            // Calculate compass heading
-            var compassHeading = Math.atan(rA / rB);
-
-            // Convert from half unit circle to whole unit circle
-            if (rB < 0) {
-                compassHeading += Math.PI;
-            } else if (rA < 0) {
-                compassHeading += 2 * Math.PI;
-            }
-
-            // Convert radians to degrees
-            compassHeading *= 180 / Math.PI;
-
-            return compassHeading;
-        }
-
-        // window.addEventListener('devicemotion', (motion) => {
-        //     var log = "motion:\n";
-        //     var acceleration = motion.acceleration;
-        //     var accelerationIncludingGravity = motion.accelerationIncludingGravity;
-            
-        //     log += "accelerationX:" + acceleration.x + "\naccelerationY:" + acceleration.y + "\naccelerationZ:" + acceleration.z +"\n";
-        //     log += "accelerationIncludingGravityX:" + accelerationIncludingGravity.x + "\naccelerationIncludingGravityY:" + accelerationIncludingGravity.y + "\naccelerationIncludingGravityZ:" + accelerationIncludingGravity.z +"\n";
-        //     document.querySelector("#test_el2").innerText = log;
-        // });
 
         render();
     })();
