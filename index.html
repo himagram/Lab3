@@ -55,7 +55,7 @@
                 resolve({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
-                    altitude: position.coords.altitude
+                    altitude: 0
                 });  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
 
             });
@@ -102,9 +102,9 @@
                     // { latitude: 21.046138, longitude: 105.795292, altitude: 20 },
                     // { latitude: 21.046629, longitude: 105.794876, altitude: 30 },
                     // { latitude: 21.0464312, longitude: 105.794695, altitude: 10 }
-                    { latitude: 21.046368, longitude: 105.794631, altitude: 0 },
-                    { latitude: 21.046283, longitude: 105.795146, altitude: 10 },
-                    { latitude: 21.046399, longitude: 105.795743, altitude: 0 }
+                    { latitude: 21.046368, longitude: 105.794631, altitude: originCoordinate.altitude - 1.5 + 0 },
+                    { latitude: 21.046283, longitude: 105.795146, altitude: originCoordinate.altitude - 1.5 + 10 },
+                    { latitude: 21.046399, longitude: 105.795743, altitude: originCoordinate.altitude - 1.5 + 0 }
                     //{ latitude: 21.0464312, longitude: 105.794695, altitude: 0 }
                 ];
 
@@ -123,7 +123,7 @@
             camera.position.copy(coordinateToVector({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
-                altitude: position.coords.altitude
+                altitude: 0
             }));  // 高度の誤差がやたらと大きかったので、とりあえず無視します。
 
         }, null, { enableHighAccuracy: true });
