@@ -139,7 +139,7 @@
             return;
         }
 
-        window.addEventListener("deviceorientation", (orientation) => {
+        window.addEventListener("ondeviceorientationabsolute", (orientation) => {
             // TODO: 磁石の北と真北のズレを修正しなくていいのか確認する。
             camera.quaternion.setFromEuler(new THREE.Euler(THREE.Math.degToRad(orientation.beta), THREE.Math.degToRad(orientation.alpha), -THREE.Math.degToRad(orientation.gamma), 'YXZ'));
             camera.quaternion.multiply(new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)));  // X軸を中心に90度回転します。
